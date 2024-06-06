@@ -1,1 +1,1 @@
-/home/bandi/Tools/visualentropy/target/debug/visualentropy: /home/bandi/Tools/visualentropy/src/main.rs
+/home/bandi/Tools/entropyneur/target/debug/visualentropy: /home/bandi/Tools/entropyneur/src/main.rs
