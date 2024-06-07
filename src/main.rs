@@ -15,13 +15,11 @@ use ratatui::{
     prelude::{CrosstermBackend, Stylize, Terminal},
     widgets::Paragraph,
 };
+use std::env;
 use std::io::{stdout, Result};
 use std::{fs::File, io::Read};
 
-fn calc_entropy() -> std::io::Result<Vec<(f64, f64)>> {
-    let chunk_size = 128;
-    let filename = "/usr/bin/ls";
-
+fn calc_entropy(filename: &str, chunk_size: usize) -> std::io::Result<Vec<(f64, f64)>> {
     let mut file_input = File::open(filename)?;
     let mut buf = vec![];
     file_input.read_to_end(&mut buf)?;
@@ -54,6 +52,7 @@ fn calc_entropy() -> std::io::Result<Vec<(f64, f64)>> {
 }
 
 fn main() -> Result<()> {
+    let argument: Vec<_> = env::args().collect();
     stdout().execute(EnterAlternateScreen)?;
     enable_raw_mode()?;
     let mut terminal = Terminal::new(CrosstermBackend::new(stdout()))?;
@@ -62,7 +61,7 @@ fn main() -> Result<()> {
     // TODO main loop
     loop {
         terminal.draw(|frame| {
-            let binding = calc_entropy().unwrap();
+            let binding = calc_entropy(&argument[1], 128).unwrap();
             let datasets = vec![
                 // Line chart
                 Dataset::default()
